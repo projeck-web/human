@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dua Orang Bergerak</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Ukuran canvas
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Posisi awal dan kecepatan untuk dua orang
+        let x1 = 50, x2 = 100, y1 = canvas.height / 2, y2 = canvas.height / 2;
+        let speed1 = 2, speed2 = 3;
+
+        // Fungsi untuk menggambar orang
+        function drawPerson(x, y) {
+            // Kepala
+            ctx.beginPath();
+            ctx.arc(x, y - 30, 20, 0, Math.PI * 2); // Kepala
+            ctx.fillStyle = "#FFCC00";
+            ctx.fill();
+            ctx.closePath();
+
+            // Tubuh
+            ctx.beginPath();
+            ctx.moveTo(x, y - 10);
+            ctx.lineTo(x, y + 50); // Tubuh
+            ctx.stroke();
+
+            // Lengan Kiri
+            ctx.beginPath();
+            ctx.moveTo(x, y - 10);
+            ctx.lineTo(x - 30, y + 10); // Lengan kiri
+            ctx.stroke();
+
+            // Lengan Kanan
+            ctx.beginPath();
+            ctx.moveTo(x, y - 10);
+            ctx.lineTo(x + 30, y + 10); // Lengan kanan
+            ctx.stroke();
+
+            // Kaki Kiri
+            ctx.beginPath();
+            ctx.moveTo(x, y + 50);
+            ctx.lineTo(x - 20, y + 80); // Kaki kiri
+            ctx.stroke();
+
+            // Kaki Kanan
+            ctx.beginPath();
+            ctx.moveTo(x, y + 50);
+            ctx.lineTo(x + 20, y + 80); // Kaki kanan
+            ctx.stroke();
+        }
+
+        // Fungsi untuk menggambar dua orang dan pergerakannya
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Bersihkan layar
+
+            // Gambar dua orang
+            drawPerson(x1, y1); // Orang pertama
+            drawPerson(x2, y2); // Orang kedua
+
+            // Gerakan orang pertama dan kedua
+            x1 += speed1;
+            x2 += speed2;
+
+            // Balik arah jika sudah mencapai batas layar
+            if (x1 > canvas.width || x1 < 0) {
+                speed1 = -speed1;
+            }
+            if (x2 > canvas.width || x2 < 0) {
+                speed2 = -speed2;
+            }
+
+            // Panggil fungsi animate lagi untuk animasi terus berlanjut
+            requestAnimationFrame(animate);
+        }
+
+        // Mulai animasi
+        animate();
+    </script>
+</body>
+</html>
